@@ -4,3 +4,5 @@
 /packages/
 /PackedStreamUnitTest/bin/
 /PackedStreamUnitTest/obj/
+*.csproj.user
+/PackedStream/Properties/
