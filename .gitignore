@@ -1,3 +1,6 @@
 /.vs/
 /PackedStream/bin/
 /PackedStream/obj/
+/packages/
+/PackedStreamUnitTest/bin/
+/PackedStreamUnitTest/obj/
