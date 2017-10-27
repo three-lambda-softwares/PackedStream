@@ -31,6 +31,7 @@ namespace TLS
         #region Events
 
         public event EventHandler<PackedStreamDataEventArgs> DataReceived;
+        public event EventHandler Disconected;
 
         #endregion
 
@@ -187,13 +188,22 @@ namespace TLS
 
         private void InputStreamDataReceived(IAsyncResult ar)
         {
+
             try
             {
-                _readedDataLength += _inputStream.EndRead(ar);
+                var curDataLength = _inputStream.EndRead(ar);
+                if (curDataLength == 0)
+                {
+                    // Input stream closed
+                    Disconected?.BeginInvoke(this, EventArgs.Empty, (iar) => { }, null);
+                    return;
+                }
+                _readedDataLength += curDataLength;
             }
             catch (IOException ex) when (ex.HResult == -2146232800)
             {
                 // Input stream closed
+                Disconected?.BeginInvoke(this, EventArgs.Empty, (iar) => { }, null);
                 return;
             }
 
